@@ -1,870 +1,724 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>For Shrusti — My Beautiful Sherni 🦁💖</title>
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Google Fonts: Great Vibes, Playfair Display, Cinzel, Plus Jakarta Sans -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>For My One & Only Sherni 🦁💖</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Canvas Confetti Library -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Great+Vibes&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            royal: ['"Cinzel"', 'serif'],
-            script: ['"Great Vibes"', 'cursive'],
-            serif: ['"Playfair Display"', 'serif'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
-          colors: {
-            midnight: '#0d0714',
-            velvet: '#1a091e',
-            wine: '#3d0c24',
-            roseGold: '#e8a598',
-            gold: {
-              300: '#fde047',
-              400: '#facc15',
-              500: '#eab308',
-              600: '#ca8a04',
-            },
-            crimson: '#e11d48',
-          },
-          animation: {
-            'float-gentle': 'floatGentle 4s ease-in-out infinite',
-            'sparkle-spin': 'spinSlow 20s linear infinite',
-            'pulse-glow': 'pulseGlow 2.5s infinite alternate',
-            'shimmer': 'shimmer 2s infinite linear',
-          },
-          keyframes: {
-            floatGentle: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-10px)' },
-            },
-            pulseGlow: {
-              '0%': { boxShadow: '0 0 15px rgba(244, 63, 94, 0.4), 0 0 30px rgba(234, 179, 8, 0.2)' },
-              '100%': { boxShadow: '0 0 35px rgba(244, 63, 94, 0.8), 0 0 50px rgba(234, 179, 8, 0.5)' },
-            },
-            spinSlow: {
-              '0%': { transform: 'rotate(0deg)' },
-              '100%': { transform: 'rotate(360deg)' },
-            }
-          }
-        }
-      }
-    }
-  </script>
 
   <style>
-    /* Custom Styling & Aesthetics */
-    body {
-      background: radial-gradient(circle at 50% 20%, #290d25 0%, #15071a 50%, #08030b 100%);
-      color: #fce7f3;
-      user-select: none;
+    :root {
+      --gold-primary: #f5d061;
+      --gold-glow: #ffeaa7;
+      --rose-dark: #1f040a;
+      --rose-velvet: #420b17;
+      --burgundy: #2d0610;
+      --text-gold: #f9e79f;
+      --pure-white: #ffffff;
+      --card-bg: rgba(35, 7, 15, 0.78);
+      --glass-border: rgba(245, 208, 97, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 20%, #3e0b17 0%, #1f040a 45%, #0d0104 100%);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
       overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
     }
 
-    .glass-box {
-      background: rgba(28, 12, 33, 0.72);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(244, 114, 182, 0.22);
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), inset 0 1px 2px rgba(255, 255, 255, 0.15);
+    #bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
     }
 
-    .glass-gold-border {
-      border: 1px solid rgba(234, 179, 8, 0.35);
-      background: linear-gradient(135deg, rgba(45, 14, 51, 0.8), rgba(20, 6, 25, 0.9));
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 20px rgba(217, 119, 6, 0.15);
+    .app-container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 520px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px;
+      text-align: center;
     }
 
-    /* Wax Seal Button */
+    /* Floating Music Disc Widget */
+    .music-widget {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(40, 8, 16, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      border-radius: 40px;
+      padding: 6px 14px 6px 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+    }
+    .music-widget:active {
+      transform: scale(0.95);
+    }
+    .music-disc {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffeaa7 15%, #d4af37 60%, #111 90%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      animation: spin 3s linear infinite;
+      animation-play-state: paused;
+    }
+    .music-widget.playing .music-disc {
+      animation-play-state: running;
+      box-shadow: 0 0 12px var(--gold-primary);
+    }
+    .music-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--text-gold);
+    }
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Card Panels */
+    .panel {
+      display: none;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+    .panel.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stage 1: Envelope */
+    .envelope-box {
+      width: 100%;
+      max-width: 380px;
+      cursor: pointer;
+      position: relative;
+      perspective: 1000px;
+    }
+    .royal-crown-badge {
+      font-size: 42px;
+      filter: drop-shadow(0 0 14px rgba(245, 208, 97, 0.8));
+      margin-bottom: 8px;
+      animation: floatBadge 3s ease-in-out infinite;
+    }
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .envelope-card {
+      background: linear-gradient(145deg, #3d0c18, #20040a);
+      border: 2px solid var(--gold-primary);
+      border-radius: 18px;
+      padding: 34px 22px;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(245, 208, 97, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .envelope-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .regal-title {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: var(--text-gold);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .sherni-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 44px;
+      color: #fff;
+      text-shadow: 0 0 12px rgba(245, 208, 97, 0.6);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .subtitle-sherni {
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: #e0b4bb;
+      margin-bottom: 24px;
+    }
+
     .wax-seal {
-      background: radial-gradient(circle at 35% 35%, #e11d48, #881337);
-      box-shadow: 0 8px 24px rgba(225, 29, 72, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4), inset 0 -3px 5px rgba(0, 0, 0, 0.4);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      width: 78px;
+      height: 78px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: radial-gradient(circle, #b91c1c, #7f1d1d);
+      border: 3px dashed var(--gold-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(220, 38, 38, 0.7);
+      animation: pulseSeal 2s infinite;
+      cursor: pointer;
     }
-    .wax-seal:hover {
-      transform: scale(1.08) rotate(4deg);
-      box-shadow: 0 12px 30px rgba(244, 63, 94, 0.7);
+    @keyframes pulseSeal {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 18px rgba(220, 38, 38, 0.6); }
+      50% { transform: scale(1.08); box-shadow: 0 0 28px rgba(245, 208, 97, 0.8); }
     }
-
-    /* Envelope 3D Fold Effects */
-    .envelope-flap {
-      clip-path: polygon(0% 0%, 50% 50%, 100% 0%, 100% 100%, 0% 100%);
+    .tap-hint {
+      margin-top: 18px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-gold);
+      animation: fadeInOut 1.8s infinite;
     }
-
-    /* Shimmer Gold Text */
-    .gold-gradient-text {
-      background: linear-gradient(135deg, #fffbeb 0%, #fde047 30%, #eab308 70%, #d97706 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .rose-gradient-text {
-      background: linear-gradient(135deg, #ffe4e6 0%, #f43f5e 50%, #fb7185 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* Ring Box 3D Illusion */
-    .ring-box-lid {
-      transform-origin: top center;
-      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .ring-box-open .ring-box-lid {
-      transform: rotateX(110deg) translateY(-8px);
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
     }
 
-    /* Custom Scrollbar for Letter Modal */
-    ::-webkit-scrollbar {
-      width: 6px;
+    /* Stage 2: Memory & Reasons Reel */
+    .story-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 30px 22px;
+      width: 100%;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
     }
-    ::-webkit-scrollbar-track {
-      background: rgba(15, 6, 20, 0.5);
+    .story-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 8px rgba(245, 208, 97, 0.5));
     }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(244, 63, 94, 0.3);
-      border-radius: 999px;
+    .story-header {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      color: var(--gold-primary);
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+    }
+    .story-text-en {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #fce7f3;
+      margin-bottom: 10px;
+    }
+    .story-text-hi {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #f9a8d4;
+      font-style: italic;
+    }
+    .dot-navigation {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .nav-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      transition: all 0.3s;
+    }
+    .nav-dot.active {
+      background: var(--gold-primary);
+      transform: scale(1.3);
+      box-shadow: 0 0 8px var(--gold-primary);
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, #f5d061, #e67e22);
+      color: #20040a;
+      border: none;
+      padding: 13px 32px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(245, 208, 97, 0.4);
+      transition: all 0.2s ease;
+    }
+    .btn-gold:active {
+      transform: scale(0.96);
+    }
+
+    /* Stage 3: The Proposal Box & Question */
+    .ring-wrapper {
+      margin: 10px 0 25px;
+      perspective: 800px;
+    }
+    .ring-box-3d {
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, #5e0d1e, #29040c);
+      border: 3px solid var(--gold-primary);
+      border-radius: 24px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.7), 0 0 30px rgba(245, 208, 97, 0.3);
+      position: relative;
+      animation: floatRing 3s ease-in-out infinite;
+    }
+    @keyframes floatRing {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(1deg); }
+    }
+    .diamond-ring {
+      font-size: 58px;
+      filter: drop-shadow(0 0 16px rgba(255, 234, 167, 0.9));
+      animation: diamondShimmer 2s ease-in-out infinite alternate;
+    }
+    @keyframes diamondShimmer {
+      0% { transform: scale(0.96); filter: drop-shadow(0 0 10px rgba(255, 234, 167, 0.6)); }
+      100% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(255, 234, 167, 1)); }
+    }
+    .proposal-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 46px;
+      color: #fff;
+      text-shadow: 0 0 15px rgba(245, 208, 97, 0.6);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .proposal-sub {
+      font-size: 14px;
+      color: var(--text-gold);
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Buttons Arena */
+    .decision-arena {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      width: 100%;
+      min-height: 90px;
+      position: relative;
+    }
+    .btn-yes {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      border: 2px solid #6ee7b7;
+      padding: 15px 36px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: 2px;
+      border-radius: 40px;
+      cursor: pointer;
+      box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5);
+      transition: transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28), box-shadow 0.2s;
+      z-index: 20;
+    }
+    .btn-no {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 13px 24px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    /* Stage 4: Celebration & Royal Decree */
+    .celebration-badge {
+      font-size: 48px;
+      margin-bottom: 8px;
+      animation: heartThrob 1s infinite alternate;
+    }
+    @keyframes heartThrob {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.15); }
+    }
+    .celebrate-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 52px;
+      color: var(--gold-primary);
+      text-shadow: 0 0 20px rgba(245, 208, 97, 0.8);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .vow-card {
+      background: rgba(30, 5, 12, 0.85);
+      border: 2px solid var(--gold-primary);
+      border-radius: 18px;
+      padding: 22px 18px;
+      margin: 18px 0;
+      text-align: left;
+      box-shadow: inset 0 0 20px rgba(245, 208, 97, 0.1);
+    }
+    .vow-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      color: var(--gold-primary);
+      letter-spacing: 1.5px;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .vow-list {
+      list-style: none;
+      font-size: 13px;
+      color: #fce7f3;
+      line-height: 1.8;
+    }
+    .vow-list li {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    /* Secret Customizer Modal */
+    .secret-trigger {
+      position: fixed;
+      bottom: 12px;
+      left: 12px;
+      opacity: 0.2;
+      font-size: 14px;
+      cursor: pointer;
+      z-index: 100;
+    }
+    .secret-trigger:hover {
+      opacity: 0.8;
     }
   </style>
 </head>
-<body class="min-h-screen relative flex items-center justify-center p-3 sm:p-6 overflow-x-hidden">
+<body>
 
-  <!-- Interactive Background Canvas (Rising Golden Stardust, Rose Petals & Floating Little Hearts) -->
-  <canvas id="ambient-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+  <!-- Floating Ambient Particles Canvas -->
+  <canvas id="bgCanvas"></canvas>
 
-  <!-- Sound & Ambient Audio Controller Bar (Top Right) -->
-  <div class="fixed top-4 right-4 z-50 flex items-center gap-2.5">
-    <!-- Ambient Chime / Romance Synth Sound Button -->
-    <button id="soundBtn" onclick="toggleAudio()" class="px-3 py-2 rounded-full glass-box border border-rose-500/30 text-rose-300 hover:text-white hover:border-rose-400 text-xs font-medium flex items-center gap-1.5 transition-all active:scale-95 shadow-lg">
-      <span id="soundIcon" class="text-base">🎵</span>
-      <span id="soundLabel" class="hidden sm:inline">Romance BGM: On</span>
-    </button>
+  <!-- Background Music Audio Element -->
+  <!-- Looks for song.mp3 in the same GitHub repository -->
+  <audio id="bgMusic" src="song.mp3" preload="auto" loop></audio>
+
+  <!-- Music Status / Toggle Widget -->
+  <div class="music-widget" id="musicWidget" onclick="toggleMusic()" title="Play / Pause Song">
+    <div class="music-disc">🎵</div>
+    <span class="music-label" id="musicLabel">Our Song</span>
   </div>
 
-  <!-- MAIN WRAPPER -->
-  <main class="relative z-10 w-full max-w-xl mx-auto flex flex-col items-center">
+  <div class="app-container">
 
-    <!-- ========================================================
-         STAGE 1: THE ROYAL ENVELOPE FOR SHERNI
-         ======================================================== -->
-    <section id="stage-envelope" class="w-full flex flex-col items-center transition-all duration-700">
-      
-      <!-- Top Crown / Lioness Monogram -->
-      <div class="flex items-center gap-2 mb-3 px-4 py-1.5 rounded-full border border-gold-400/40 bg-black/40 backdrop-blur-md">
-        <span class="text-gold-400 text-base">👑</span>
-        <span class="font-royal text-xs tracking-widest text-gold-300 uppercase">A Royal Decree For My Queen</span>
-        <span class="text-gold-400 text-base">🐾</span>
-      </div>
+    <!-- ================= STAGE 1: ENVELOPE ================= -->
+    <div class="panel active" id="stage1">
+      <div class="envelope-box" onclick="openEnvelope()">
+        <div class="royal-crown-badge">👑🐾</div>
+        <div class="envelope-card">
+          <p class="regal-title">A Royal Decree For My Queen</p>
+          <h1 class="sherni-title">To My Shrusti</h1>
+          <p class="subtitle-sherni">Meri Pyaari Sherni 🦁❤️</p>
 
-      <!-- Envelope Card -->
-      <div class="glass-gold-border rounded-3xl p-8 sm:p-11 w-full text-center relative overflow-hidden animate-float-gentle">
-        <!-- Ambient Glowing Aura -->
-        <div class="absolute -top-12 -left-12 w-36 h-36 bg-rose-600/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-12 -right-12 w-44 h-44 bg-gold-500/20 rounded-full blur-3xl pointer-events-none"></div>
-
-        <!-- Lioness & Heart Motif -->
-        <div class="mx-auto w-20 h-20 rounded-2xl bg-gradient-to-tr from-rose-900/80 via-wine to-pink-900/60 border border-gold-400/50 flex items-center justify-center text-3xl shadow-xl shadow-rose-950/70 mb-5 relative group">
-          <span class="filter drop-shadow-md">🦁</span>
-          <span class="absolute -top-1.5 -right-1.5 text-xs bg-rose-600 text-white rounded-full px-1.5 py-0.5 border border-pink-300 shadow animate-pulse">💖</span>
-        </div>
-
-        <p class="font-script text-4xl sm:text-5xl text-rose-300 mb-1">To My One & Only</p>
-        <h1 class="font-serif text-3xl sm:text-4xl font-extrabold gold-gradient-text tracking-wide mb-1">
-          Shrusti
-        </h1>
-        <p class="font-royal text-xs sm:text-sm tracking-widest text-rose-300/80 uppercase font-semibold mb-4">
-          ~ Meri Pyaari Sherni 🐾 ~
-        </p>
-
-        <p class="text-sm sm:text-base text-rose-100/85 leading-relaxed max-w-md mx-auto mb-8 font-light">
-          There are billions of people in this wide world, but my heart stopped and surrendered the very second you walked into my life. Here is a small truth I've held safe for you...
-        </p>
-
-        <!-- Wax Seal Button -->
-        <div class="flex flex-col items-center">
-          <button onclick="breakWaxSeal()" class="wax-seal group w-20 h-20 rounded-full flex flex-col items-center justify-center cursor-pointer relative focus:outline-none">
-            <span class="text-2xl filter drop-shadow">💌</span>
-            <span class="text-[9px] uppercase tracking-wider font-bold text-rose-100 mt-0.5">OPEN</span>
-            <div class="absolute inset-0 rounded-full border-2 border-dashed border-gold-300/60 animate-sparkle-spin"></div>
-          </button>
-          <span class="text-xs text-rose-300/70 mt-3 font-medium flex items-center gap-1.5">
-            <span>✨</span> Tap seal to unveil my heart <span>✨</span>
-          </span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================
-         STAGE 2: LOVE JOURNEY & WHY SHE IS MY SHERNI
-         ======================================================== -->
-    <section id="stage-journey" class="w-full hidden opacity-0 transition-all duration-700">
-      <div class="glass-box rounded-3xl p-6 sm:p-9 w-full flex flex-col items-center text-center relative border border-rose-500/30">
-        
-        <!-- Header Tag -->
-        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-rose-950/70 border border-rose-500/40 text-rose-300 text-xs tracking-wider uppercase font-semibold mb-4">
-          <span>🦁</span> Why You Are My Forever Sherni <span>👑</span>
-        </div>
-
-        <h2 class="font-serif text-2xl sm:text-3xl font-bold gold-gradient-text mb-2">
-          Every Beat of My Heart Remembers...
-        </h2>
-        <p class="text-xs sm:text-sm text-rose-200/70 mb-6 max-w-md">
-          Swipe or tap through the reasons why life without you makes no sense at all.
-        </p>
-
-        <!-- Polaroid Style Carousel Card -->
-        <div class="w-full relative min-h-[260px] sm:min-h-[270px] mb-6 flex items-center justify-center">
-          <div id="journeyCard" class="w-full max-w-md p-6 sm:p-7 rounded-2xl bg-gradient-to-b from-[#2e102f] to-[#17061d] border border-rose-400/40 shadow-2xl relative transition-all duration-500 flex flex-col items-center justify-between">
-            
-            <!-- Top Card Badge -->
-            <div class="w-full flex justify-between items-center text-xs text-rose-400 font-royal">
-              <span id="cardBadge">Reason #1</span>
-              <span>Shrusti 💖</span>
-            </div>
-
-            <!-- Card Visual & Message -->
-            <div class="my-4 flex flex-col items-center">
-              <div id="cardEmoji" class="text-5xl sm:text-6xl mb-3 filter drop-shadow animate-float-gentle">🦁✨</div>
-              <h3 id="cardTitle" class="font-serif text-xl sm:text-2xl font-bold rose-gradient-text mb-2">
-                Fierce & Gentle Heart
-              </h3>
-              <p id="cardQuote" class="text-sm sm:text-base text-rose-100 font-serif italic leading-relaxed px-2">
-                "Fierce like a lioness when you protect what you love, yet the gentlest, sweetest soul whose hug melts away all my worries."
-              </p>
-              <p id="cardHindi" class="text-xs text-gold-300/90 mt-2.5 font-medium tracking-wide">
-                (तुम्हारा गुस्सा भी प्यारा है, और तुम्हारी हंसी मेरी दुनिया!)
-              </p>
-            </div>
-
-            <!-- Bottom Counter / Nav Dots -->
-            <div class="w-full flex justify-between items-center pt-2 border-t border-rose-500/20">
-              <button onclick="prevJourneyCard()" class="text-rose-300 hover:text-white text-xs px-2 py-1 rounded bg-rose-900/40 hover:bg-rose-900/80 transition-all">← Prev</button>
-              <div class="flex gap-1.5" id="journeyDots">
-                <!-- Dots generated in JS -->
-              </div>
-              <button onclick="nextJourneyCard()" class="text-rose-300 hover:text-white text-xs px-2 py-1 rounded bg-rose-900/40 hover:bg-rose-900/80 transition-all">Next →</button>
-            </div>
+          <div class="wax-seal">
+            <span style="font-size: 26px;">💍</span>
           </div>
+
+          <p class="tap-hint">Tap seal to open letter & music</p>
         </div>
-
-        <!-- Continue Button to Grand Question -->
-        <button onclick="goToProposal()" class="px-7 py-3 rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-rose-700 text-white font-semibold text-sm sm:text-base shadow-lg shadow-rose-900/60 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 group">
-          <span>There's something I need to ask you, Sherni...</span>
-          <span class="group-hover:translate-x-1 transition-transform">🐾→</span>
-        </button>
-      </div>
-    </section>
-
-    <!-- ========================================================
-         STAGE 3: THE GRAND PROPOSAL & RUNAWAY 'NO'
-         ======================================================== -->
-    <section id="stage-proposal" class="w-full hidden opacity-0 transition-all duration-700">
-      <div class="glass-box rounded-3xl p-6 sm:p-9 w-full flex flex-col items-center text-center relative border border-rose-400/40 shadow-2xl">
-        
-        <!-- Royal Lioness Sparkle Crown -->
-        <div class="flex items-center gap-2 mb-2 text-gold-400">
-          <span>✨</span>
-          <span class="font-royal text-xs tracking-widest uppercase">My Dearest Sherni</span>
-          <span>✨</span>
-        </div>
-
-        <p class="font-script text-4xl sm:text-5xl text-rose-300 mb-1">Shrusti,</p>
-        
-        <!-- Animated 3D Ring Box -->
-        <div class="my-5 cursor-pointer relative" onclick="openRingBox()" title="Click to open ring box">
-          <div id="ringBoxElement" class="w-28 h-28 mx-auto relative flex items-center justify-center">
-            
-            <!-- Glow background -->
-            <div class="absolute inset-0 bg-gold-400/20 rounded-full blur-xl pointer-events-none animate-pulse"></div>
-
-            <!-- Velvet Box Base -->
-            <div class="w-24 h-24 rounded-2xl bg-gradient-to-b from-[#4a0e28] to-[#260515] border-2 border-gold-400/80 shadow-2xl flex flex-col items-center justify-center relative overflow-hidden">
-              <!-- Cushion Inside -->
-              <div class="w-16 h-16 rounded-xl bg-gradient-to-tr from-[#1f0511] to-[#3b0b20] border border-rose-500/40 flex items-center justify-center relative">
-                <!-- Diamond Solitaire Ring -->
-                <div id="diamondRing" class="relative transition-all duration-700 transform scale-90 group-hover:scale-110">
-                  <span class="text-4xl filter drop-shadow-[0_0_12px_rgba(253,224,71,0.9)]">💍</span>
-                </div>
-              </div>
-
-              <!-- Lid simulation -->
-              <div id="boxLid" class="absolute inset-0 bg-gradient-to-b from-rose-800 to-wine rounded-2xl flex items-center justify-center border border-gold-300 transition-all duration-700">
-                <span class="text-xs font-royal text-gold-300 tracking-wider">TAP TO OPEN 👑</span>
-              </div>
-            </div>
-          </div>
-          <span class="text-[11px] text-gold-300/80 font-medium mt-1 inline-block">✨ Tap the royal box ✨</span>
-        </div>
-
-        <!-- The Grand Question -->
-        <h2 class="font-serif text-2xl sm:text-3xl md:text-4xl font-extrabold gold-gradient-text leading-tight mb-3">
-          Will You Be Mine Forever & Always?
-        </h2>
-        <p class="text-xs sm:text-sm text-rose-200/80 max-w-md mx-auto mb-8 font-light italic">
-          "I promise to hold your hand through every high and low, celebrate all your victories, bring you ice cream when you're angry, and love you unconditionally, my Sherni."
-        </p>
-
-        <!-- Interactive Proposal Choice Area -->
-        <div id="proposalActionZone" class="w-full relative min-h-[160px] flex items-center justify-center gap-4">
-          
-          <!-- YES BUTTON (Grows as 'No' dodges) -->
-          <button id="yesProposalBtn" onclick="celebrateYesProposal()"
-            class="animate-pulse-glow px-9 py-4 rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-gold-500 text-white font-bold text-lg sm:text-2xl shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2.5 z-20 border border-gold-300">
-            <span>YES, FOREVER!</span>
-            <span class="text-2xl">🦁💍</span>
-          </button>
-
-          <!-- PLAYFUL EVASIVE NO BUTTON -->
-          <button id="noProposalBtn"
-            onmouseenter="handleNoDodge(event)"
-            ontouchstart="handleNoDodge(event)"
-            onclick="handleNoDodge(event)"
-            class="px-5 py-3 rounded-2xl bg-slate-900/80 hover:bg-slate-900 text-rose-300/80 font-medium text-xs sm:text-sm border border-rose-500/30 shadow-md transition-all duration-200 z-10">
-            No
-          </button>
-        </div>
-
-        <p id="dodgeTeaseText" class="text-xs text-gold-300 mt-2 font-medium italic min-h-[20px] transition-all">
-          (Sherni, even destiny knows there is only one right answer! 😉)
-        </p>
-
-      </div>
-    </section>
-
-    <!-- ========================================================
-         STAGE 4: CELEBRATION MODAL & FOREVER PROMISE VOW
-         ======================================================== -->
-    <div id="celebrationOverlay" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/75 backdrop-blur-md hidden opacity-0 transition-opacity duration-500 overflow-y-auto">
-      
-      <div id="certificateCard" class="glass-gold-border max-w-lg w-full rounded-3xl p-6 sm:p-8 text-center relative border-2 border-gold-400 transform scale-90 transition-transform duration-500 shadow-[0_0_50px_rgba(234,179,8,0.35)] my-auto">
-        
-        <!-- Top Celebration Header Banner -->
-        <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-gradient-to-tr from-rose-600 to-gold-400 p-0.5 shadow-xl mb-3 flex items-center justify-center animate-bounce">
-          <div class="w-full h-full bg-[#1b071f] rounded-full flex items-center justify-center text-3xl sm:text-4xl">
-            👑🦁
-          </div>
-        </div>
-
-        <span class="font-royal text-xs tracking-widest text-gold-400 uppercase font-bold">Official Seal of Eternal Love</span>
-        <h3 class="font-script text-4xl sm:text-5xl text-rose-300 mt-1 mb-1">She Said Yes!</h3>
-        <p class="font-serif text-lg sm:text-xl font-bold text-white mb-4">
-          Shrusti is Officially Mine Forever 💕
-        </p>
-
-        <!-- Promise Vows Scroll -->
-        <div class="p-5 rounded-2xl bg-black/50 border border-gold-400/30 text-left text-xs sm:text-sm text-rose-100/90 space-y-2.5 mb-5 shadow-inner">
-          <p class="text-center font-royal text-xs text-gold-300 uppercase tracking-widest mb-2 border-b border-rose-500/30 pb-1">
-            📜 5 Royal Promises to My Sherni 🐾
-          </p>
-          <p class="flex items-start gap-2">
-            <span class="text-gold-400">1.</span>
-            <span>I promise to always stand by your side as your biggest cheerleader and safest shelter.</span>
-          </p>
-          <p class="flex items-start gap-2">
-            <span class="text-gold-400">2.</span>
-            <span>I promise to listen to all your stories, even the ones you tell five times over.</span>
-          </p>
-          <p class="flex items-start gap-2">
-            <span class="text-gold-400">3.</span>
-            <span>I promise to never let your tea or coffee go cold when you're busy being brilliant.</span>
-          </p>
-          <p class="flex items-start gap-2">
-            <span class="text-gold-400">4.</span>
-            <span>I promise to make you smile through tears and handle your fiercest moods with hugs.</span>
-          </p>
-          <p class="flex items-start gap-2">
-            <span class="text-gold-400">5.</span>
-            <span>I promise to love you deeper, truer, and louder with each passing sunrise.</span>
-          </p>
-
-          <div class="pt-3 text-right font-script text-2xl text-gold-300">
-            Yours now & throughout lifetimes, always. ❤️
-          </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="flex flex-col sm:flex-row gap-2.5">
-          <button onclick="triggerConfettiSurprise()" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-rose-600 to-pink-600 text-white font-semibold text-xs sm:text-sm shadow-md hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-1.5">
-            <span>More Fireworks!</span> 🎆
-          </button>
-          <button onclick="downloadKeepsakeMessage()" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-gold-500 to-amber-600 text-slate-950 font-bold text-xs sm:text-sm shadow-md hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-1.5">
-            <span>Save Promise Card</span> 💌
-          </button>
-        </div>
-
-        <button onclick="closeCelebrationOverlay()" class="text-rose-400/80 hover:text-white text-xs mt-4 underline font-medium">
-          Close & stay on our moment ✨
-        </button>
-
       </div>
     </div>
 
-  </main>
+    <!-- ================= STAGE 2: THE SHERNI STORY ================= -->
+    <div class="panel" id="stage2">
+      <div class="story-card">
+        <div class="story-icon" id="storyIcon">🦁</div>
+        <h2 class="story-header" id="storyHeader">Fierce & Beautiful</h2>
+        <p class="story-text-en" id="storyEn">
+          You are bold, untamed, and strong like a true Sherni — yet your heart is the softest, safest home I've ever known.
+        </p>
+        <p class="story-text-hi" id="storyHi">
+          "तुम्हारा गुस्सा भी बेहद प्यारा है, और तुम्हारी हंसी ही मेरी पूरी दुनिया है।"
+        </p>
 
-  <!-- JAVASCRIPT LOGIC & AUDIO SYNTHESIZERS -->
+        <div class="dot-navigation">
+          <span class="nav-dot active"></span>
+          <span class="nav-dot"></span>
+          <span class="nav-dot"></span>
+        </div>
+
+        <button class="btn-gold" id="nextStoryBtn" onclick="nextStoryCard()">Next Memory ✨</button>
+      </div>
+    </div>
+
+    <!-- ================= STAGE 3: THE PROPOSAL ================= -->
+    <div class="panel" id="stage3">
+      <div class="ring-wrapper">
+        <div class="ring-box-3d">
+          <div class="diamond-ring">💍</div>
+        </div>
+      </div>
+
+      <h1 class="proposal-title">Shrusti...</h1>
+      <p class="proposal-sub">
+        My Sherni, my best friend, and my whole heart.<br>
+        <strong>Will you be mine forever?</strong>
+      </p>
+
+      <div class="decision-arena" id="decisionArena">
+        <button class="btn-yes" id="yesBtn" onclick="acceptProposal()">YES! 💖</button>
+        <button class="btn-no" id="noBtn" onmouseover="dodgeNo()" onclick="dodgeNo()">No</button>
+      </div>
+    </div>
+
+    <!-- ================= STAGE 4: CELEBRATION ================= -->
+    <div class="panel" id="stage4">
+      <div class="celebration-badge">💍✨👑</div>
+      <h1 class="celebrate-title">SHE SAID YES!</h1>
+      <p style="color: var(--text-gold); font-size: 15px; margin-bottom: 8px;">
+        Shrusti ❤️ Vamsi Krishna
+      </p>
+
+      <div class="vow-card">
+        <p class="vow-heading">✦ 5 Royal Promises to My Sherni ✦</p>
+        <ul class="vow-list">
+          <li>🦁 <span>I will always stand by your side and protect your beautiful smile.</span></li>
+          <li>🍫 <span>Unlimited snacks, chocolates & hugs whenever you are in angry-Sherni mode.</span></li>
+          <li>🤝 <span>To be your strongest partner, biggest cheerleader, and closest secret keeper.</span></li>
+          <li>💫 <span>To never let a day pass without reminding you how deeply you are loved.</span></li>
+          <li>♾️ <span>Forever and always, through all seasons of life.</span></li>
+        </ul>
+      </div>
+
+      <button class="btn-gold" onclick="launchFireworks()">Shower More Love 🎉</button>
+    </div>
+
+  </div>
+
+  <div class="secret-trigger" onclick="toggleMusic()">⚙️</div>
+
   <script>
-    /* =========================================================================
-       1. WEB AUDIO API ROMANTIC SYNTHESIZER (Completely Self-Contained)
-       ========================================================================= */
+    /* ================= AUDIO CONTROLLER ================= */
+    const bgMusic = document.getElementById('bgMusic');
+    const musicWidget = document.getElementById('musicWidget');
+    const musicLabel = document.getElementById('musicLabel');
+    let isMusicPlaying = false;
+
+    // Web Audio synthesizer fallback in case song.mp3 isn't uploaded yet
     let audioCtx = null;
-    let bgmInterval = null;
-    let isBgmPlaying = false;
-
-    function initAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-    }
-
-    // Play a single soft harp / music-box note
-    function playNote(freq, timeOffset = 0, duration = 0.9, type = 'sine', volume = 0.12) {
-      if (!audioCtx) return;
+    function playChime(freq = 523.25, duration = 0.5) {
       try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + timeOffset);
-
-        gain.gain.setValueAtTime(0, audioCtx.currentTime + timeOffset);
-        gain.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + timeOffset + 0.04);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + timeOffset + duration);
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.start(audioCtx.currentTime + timeOffset);
-        osc.stop(audioCtx.currentTime + timeOffset + duration + 0.1);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    // Romantic ambient chord progression loop
-    const melodyScale = [
-      [261.63, 329.63, 392.00, 523.25], // C Major
-      [220.00, 261.63, 329.63, 440.00], // A Minor
-      [174.61, 220.00, 261.63, 349.23], // F Major
-      [196.00, 246.94, 293.66, 392.00]  // G Major
-    ];
-    let chordIdx = 0;
-
-    function playBgmPattern() {
-      const chord = melodyScale[chordIdx];
-      chord.forEach((freq, i) => {
-        playNote(freq, i * 0.35, 1.2, 'sine', 0.08);
-      });
-      chordIdx = (chordIdx + 1) % melodyScale.length;
-    }
-
-    function toggleAudio() {
-      initAudio();
-      const label = document.getElementById('soundLabel');
-      const icon = document.getElementById('soundIcon');
-
-      if (!isBgmPlaying) {
-        isBgmPlaying = true;
-        label.innerText = 'Romance BGM: On';
-        icon.innerText = '🎵';
-        playBgmPattern();
-        bgmInterval = setInterval(playBgmPattern, 2400);
-      } else {
-        isBgmPlaying = false;
-        label.innerText = 'Romance BGM: Off';
-        icon.innerText = '🔇';
-        clearInterval(bgmInterval);
-      }
-    }
-
-    // Play whimsical dodge sound for the 'No' button
-    function playDodgeSfx() {
-      initAudio();
-      try {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(320, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(700, audioCtx.currentTime + 0.16);
-
-        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
-
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
-        osc.stop(audioCtx.currentTime + 0.22);
-      } catch (e) {}
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        // AudioContext not supported
+      }
     }
 
-    // Play sparkling chime when opening seal or ring box
-    function playChimeSfx() {
-      initAudio();
-      const chimes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
-      chimes.forEach((f, i) => {
-        playNote(f, i * 0.08, 0.8, 'sine', 0.14);
+    function startMusic() {
+      if (isMusicPlaying) return;
+      bgMusic.play().then(() => {
+        isMusicPlaying = true;
+        musicWidget.classList.add('playing');
+        musicLabel.innerText = "Playing 🎶";
+      }).catch(err => {
+        // Fallback tone if MP3 not found
+        playChime(659.25, 0.8);
       });
     }
 
-    // Grand celebration fanfare on YES!
-    function playCelebrationFanfare() {
-      initAudio();
-      const fanfare = [
-        { f: 523.25, t: 0.00, d: 0.3 },
-        { f: 659.25, t: 0.15, d: 0.3 },
-        { f: 783.99, t: 0.30, d: 0.3 },
-        { f: 1046.50, t: 0.45, d: 1.2 },
-        { f: 1318.51, t: 0.70, d: 1.5 }
-      ];
-      fanfare.forEach(item => {
-        playNote(item.f, item.t, item.d, 'triangle', 0.18);
-      });
-    }
-
-    /* =========================================================================
-       2. AMBIENT CANVAS (Stardust, Floating Rose Petals & Golden Embers)
-       ========================================================================= */
-    const canvas = document.getElementById('ambient-canvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    class AmbientParticle {
-      constructor() {
-        this.reset();
-      }
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = canvas.height + Math.random() * 40;
-        this.size = Math.random() * 12 + 6;
-        this.speedY = Math.random() * 0.75 + 0.35;
-        this.speedX = (Math.random() - 0.5) * 0.6;
-        this.opacity = Math.random() * 0.55 + 0.2;
-        this.type = Math.random() > 0.45 ? 'petal' : (Math.random() > 0.3 ? 'sparkle' : 'heart');
-        this.rotation = Math.random() * Math.PI * 2;
-        this.rotSpeed = (Math.random() - 0.5) * 0.02;
-        this.hue = Math.random() > 0.4 ? 345 : 45; // Rose Pink or Royal Gold
-      }
-      update() {
-        this.y -= this.speedY;
-        this.x += this.speedX + Math.sin(this.y * 0.01) * 0.3;
-        this.rotation += this.rotSpeed;
-        if (this.y < -30 || this.x < -30 || this.x > canvas.width + 30) {
-          this.reset();
-        }
-      }
-      draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.rotation);
-        ctx.globalAlpha = this.opacity;
-
-        if (this.type === 'heart') {
-          ctx.fillStyle = `hsl(${this.hue}, 90%, 70%)`;
-          ctx.beginPath();
-          const s = this.size / 24;
-          ctx.moveTo(0, 0);
-          ctx.bezierCurveTo(-10 * s, -10 * s, -20 * s, 5 * s, 0, 20 * s);
-          ctx.bezierCurveTo(20 * s, 5 * s, 10 * s, -10 * s, 0, 0);
-          ctx.fill();
-        } else if (this.type === 'petal') {
-          // Soft curved rose petal
-          ctx.fillStyle = `rgba(225, 29, 72, ${this.opacity})`;
-          ctx.beginPath();
-          ctx.ellipse(0, 0, this.size * 0.5, this.size, Math.PI / 4, 0, 2 * Math.PI);
-          ctx.fill();
-        } else {
-          // Golden stardust / ember
-          const rad = this.size * 0.35;
-          const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, rad);
-          grad.addColorStop(0, 'rgba(254, 240, 138, 0.95)');
-          grad.addColorStop(0.5, 'rgba(234, 179, 8, 0.4)');
-          grad.addColorStop(1, 'rgba(234, 179, 8, 0)');
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.arc(0, 0, rad, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        ctx.restore();
-      }
-    }
-
-    for (let i = 0; i < 42; i++) {
-      const p = new AmbientParticle();
-      p.y = Math.random() * canvas.height;
-      particles.push(p);
-    }
-
-    function animateAmbient() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animateAmbient);
-    }
-    animateAmbient();
-
-    /* =========================================================================
-       3. STAGE 1: BREAK WAX SEAL
-       ========================================================================= */
-    function breakWaxSeal() {
-      playChimeSfx();
-      if (!isBgmPlaying) {
-        toggleAudio(); // Start soothing music on first gentle interaction
-      }
-
-      // Sparkle burst from the seal
-      confetti({
-        particleCount: 25,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ['#f43f5e', '#facc15', '#ffffff']
-      });
-
-      const stage1 = document.getElementById('stage-envelope');
-      const stage2 = document.getElementById('stage-journey');
-
-      stage1.classList.add('scale-95', 'opacity-0');
-      setTimeout(() => {
-        stage1.classList.add('hidden');
-        stage2.classList.remove('hidden');
-        renderDots();
-        setTimeout(() => {
-          stage2.classList.remove('opacity-0');
-          stage2.classList.add('opacity-100');
-        }, 50);
-      }, 500);
-    }
-
-    /* =========================================================================
-       4. STAGE 2: CAROUSEL OF WHY SHRESTI IS YOUR SHERNI
-       ========================================================================= */
-    const sherniReasons = [
-      {
-        badge: "Trait #1",
-        emoji: "🦁💫",
-        title: "Fierce Yet Tender",
-        quote: `"You possess the courage of a lioness, ready to conquer the world, yet with me, your heart is pure gentleness and warmth."`,
-        hindi: "(तेरी हिम्मत मेरी ताक़त है, और तेरा प्यार मेरा सुकून।)"
-      },
-      {
-        badge: "Trait #2",
-        emoji: "✨👑",
-        title: "Radiant & Regal Smile",
-        quote: `"The way your eyes crinkle when you burst into laughter can light up even my darkest days. You rule my thoughts without even trying."`,
-        hindi: "(जब तुम मुस्कुराती हो, तो सारी दुनिया खूबसूरत लगने लगती है।)"
-      },
-      {
-        badge: "Trait #3",
-        emoji: "🛡️❤️",
-        title: "My Safe Haven & Strength",
-        quote: `"Whenever life gets chaotic, one word from my Sherni reminds me who I am. You make me feel invincible, loved, and endlessly blessed."`,
-        hindi: "(तू है तो सब कुछ मुमकिन लगता है।)"
-      },
-      {
-        badge: "Trait #4",
-        emoji: "☕🥰",
-        title: "Cutest Angry Moods",
-        quote: `"Even when you're roaring in your little anger or pouting, you look impossibly adorable. I wouldn't trade your tantrums for all the gold on earth!"`,
-        hindi: "(तेरी हर अदा, हर नखरे पर मेरा दिल निसार है!)"
-      }
-    ];
-
-    let currentCardIndex = 0;
-
-    function renderDots() {
-      const container = document.getElementById('journeyDots');
-      container.innerHTML = '';
-      sherniReasons.forEach((_, idx) => {
-        const dot = document.createElement('button');
-        dot.className = `w-2 h-2 rounded-full transition-all ${idx === currentCardIndex ? 'w-5 bg-gold-400' : 'bg-rose-500/40'}`;
-        dot.onclick = () => {
-          currentCardIndex = idx;
-          updateCardContent();
-        };
-        container.appendChild(dot);
-      });
-    }
-
-    function updateCardContent() {
-      const card = document.getElementById('journeyCard');
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(8px)';
-
-      setTimeout(() => {
-        const item = sherniReasons[currentCardIndex];
-        document.getElementById('cardBadge').innerText = item.badge;
-        document.getElementById('cardEmoji').innerText = item.emoji;
-        document.getElementById('cardTitle').innerText = item.title;
-        document.getElementById('cardQuote').innerText = item.quote;
-        document.getElementById('cardHindi').innerText = item.hindi;
-
-        renderDots();
-
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      }, 250);
-    }
-
-    function nextJourneyCard() {
-      playNote(440, 0, 0.1, 'sine', 0.05);
-      currentCardIndex = (currentCardIndex + 1) % sherniReasons.length;
-      updateCardContent();
-    }
-
-    function prevJourneyCard() {
-      playNote(400, 0, 0.1, 'sine', 0.05);
-      currentCardIndex = (currentCardIndex - 1 + sherniReasons.length) % sherniReasons.length;
-      updateCardContent();
-    }
-
-    function goToProposal() {
-      playChimeSfx();
-      const stage2 = document.getElementById('stage-journey');
-      const stage3 = document.getElementById('stage-proposal');
-
-      stage2.classList.add('scale-95', 'opacity-0');
-      setTimeout(() => {
-        stage2.classList.add('hidden');
-        stage3.classList.remove('hidden');
-        setTimeout(() => {
-          stage3.classList.remove('opacity-0');
-          stage3.classList.add('opacity-100');
-        }, 50);
-      }, 500);
-    }
-
-    /* =========================================================================
-       5. STAGE 3: RING BOX & RUNAWAY 'NO' LOGIC
-       ========================================================================= */
-    let isRingBoxOpen = false;
-    function openRingBox() {
-      const lid = document.getElementById('boxLid');
-      const ring = document.getElementById('diamondRing');
-      playChimeSfx();
-
-      if (!isRingBoxOpen) {
-        lid.style.transform = 'translateY(-100%) rotateX(75deg)';
-        lid.style.opacity = '0.1';
-        ring.classList.add('scale-125');
-        isRingBoxOpen = true;
-
-        confetti({
-          particleCount: 20,
-          spread: 45,
-          origin: { y: 0.5 },
-          colors: ['#facc15', '#ffffff']
+    function toggleMusic() {
+      if (!isMusicPlaying) {
+        bgMusic.play().then(() => {
+          isMusicPlaying = true;
+          musicWidget.classList.add('playing');
+          musicLabel.innerText = "Playing 🎶";
+        }).catch(e => {
+          playChime(523.25, 0.4);
         });
+      } else {
+        bgMusic.pause();
+        isMusicPlaying = false;
+        musicWidget.classList.remove('playing');
+        musicLabel.innerText = "Paused ⏸️";
       }
     }
 
-    const noPhrases = [
-      "Sherni never backs down! 🦁",
-      "Error 404: 'No' not found! 😉",
-      "Look how big YES is getting! 💖",
-      "Nice try sweetie, try YES! ✨",
-      "Are you really sure, Sherni? 🥺",
-      "Can't touch this! 🏃💨",
-      "Dil hai ki maanta nahi! 💕",
-      "Destiny says only YES! 💍"
+    /* ================= PANEL TRANSITIONS ================= */
+    function showStage(stageId) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      const activePanel = document.getElementById(stageId);
+      activePanel.classList.add('active');
+    }
+
+    function openEnvelope() {
+      playChime(587.33, 0.6);
+      startMusic();
+      showStage('stage2');
+    }
+
+    /* ================= MEMORY CAROUSEL ================= */
+    const stories = [
+      {
+        icon: "🦁",
+        header: "Fierce & Beautiful",
+        en: "You are bold, untamed, and strong like a true Sherni — yet your heart is the softest, safest home I've ever known.",
+        hi: "तुम्हारा गुस्सा भी बेहद प्यारा है, और तुम्हारी हंसी ही मेरी पूरी दुनिया है।"
+      },
+      {
+        icon: "✨",
+        header: "My Purest Sunshine",
+        en: "No matter how dark or exhausting life gets, one glance at your smile turns everything into pure warmth and magic.",
+        hi: "तुम्हारे चेहरे की एक मुस्कान मेरे हर उदास दिन को रोशन कर देती है।"
+      },
+      {
+        icon: "👑",
+        header: "The Queen of My Heart",
+        en: "I don't just want you for today, tomorrow, or next year. I want every adventure, every laugh, and every lifetime with you.",
+        hi: "अब जिंदगी का हर एक सफर, सिर्फ तुम्हारे साथ तय करना चाहता हूँ।"
+      }
     ];
 
-    let noClickCount = 0;
-    let yesScaleMultiplier = 1.0;
+    let currentStory = 0;
+    function nextStoryCard() {
+      playChime(659.25, 0.3);
+      currentStory++;
+      const dots = document.querySelectorAll('.nav-dot');
 
-    function handleNoDodge(e) {
-      if (e) e.preventDefault();
-      playDodgeSfx();
+      if (currentStory < stories.length) {
+        document.getElementById('storyIcon').innerText = stories[currentStory].icon;
+        document.getElementById('storyHeader').innerText = stories[currentStory].header;
+        document.getElementById('storyEn').innerText = stories[currentStory].en;
+        document.getElementById('storyHi').innerText = `"${stories[currentStory].hi}"`;
 
-      noClickCount++;
-      const noBtn = document.getElementById('noProposalBtn');
-      const yesBtn = document.getElementById('yesProposalBtn');
-      const teaseText = document.getElementById('dodgeTeaseText');
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('active', idx === currentStory);
+        });
 
-      // Random witty banter
-      const randomText = noPhrases[Math.floor(Math.random() * noPhrases.length)];
-      noBtn.innerText = randomText;
-      teaseText.innerText = `(${randomText})`;
-
-      // Enlarge the YES button progressively
-      yesScaleMultiplier = Math.min(yesScaleMultiplier + 0.16, 2.1);
-      yesBtn.style.transform = `scale(${yesScaleMultiplier})`;
-
-      // Teleport the 'No' button randomly within the container boundary
-      const zone = document.getElementById('proposalActionZone');
-      const rect = zone.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
-
-      const maxX = (rect.width - btnRect.width) / 2 - 10;
-      const maxY = 65;
-
-      const randomX = (Math.random() - 0.5) * (maxX * 2);
-      const randomY = (Math.random() - 0.5) * (maxY * 2);
-
-      noBtn.style.position = 'relative';
-      noBtn.style.left = `${randomX}px`;
-      noBtn.style.top = `${randomY}px`;
-      noBtn.style.zIndex = '30';
+        if (currentStory === stories.length - 1) {
+          document.getElementById('nextStoryBtn').innerText = "One Last Question... 💍";
+        }
+      } else {
+        showStage('stage3');
+      }
     }
 
-    /* =========================================================================
-       6. STAGE 4: 'YES!' CELEBRATION & ETERNAL VOWS MODAL
-       ========================================================================= */
-    function celebrateYesProposal() {
-      playCelebrationFanfare();
-      triggerConfettiSurprise();
+    /* ================= DODGING 'NO' BUTTON ================= */
+    let dodgeCount = 0;
+    const noPhrases = [
+      "Are you sure? 🥺",
+      "Think again, Sherni! 🦁",
+      "Wrong button! 🙈",
+      "Sherni never backs down! 🐾",
+      "Error 404: 'No' not found! 😉",
+      "Look how big YES is getting!"
+    ];
 
-      const modal = document.getElementById('celebrationOverlay');
-      const card = document.getElementById('certificateCard');
+    function dodgeNo() {
+      playChime(392.00, 0.2);
+      dodgeCount++;
+      const noBtn = document.getElementById('noBtn');
+      const yesBtn = document.getElementById('yesBtn');
 
-      modal.classList.remove('hidden');
-      setTimeout(() => {
-        modal.classList.remove('opacity-0');
-        modal.classList.add('opacity-100');
-        card.classList.remove('scale-90');
-        card.classList.add('scale-100');
-      }, 50);
+      // Expand YES button
+      const currentScale = 1 + (dodgeCount * 0.16);
+      yesBtn.style.transform = `scale(${Math.min(currentScale, 1.8)})`;
+
+      // Change phrase
+      noBtn.innerText = noPhrases[dodgeCount % noPhrases.length];
+
+      // Move No button to random offset
+      const x = (Math.random() - 0.5) * 180;
+      const y = (Math.random() - 0.5) * 140;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
     }
 
-    function triggerConfettiSurprise() {
-      const end = Date.now() + (4 * 1000);
-      const colors = ['#f43f5e', '#fb7185', '#fde047', '#eab308', '#ffffff'];
+    /* ================= GRAND PROPOSAL CELEBRATION ================= */
+    function acceptProposal() {
+      startMusic();
+      playChime(783.99, 0.8);
+      showStage('stage4');
+      launchFireworks();
+    }
+
+    function launchFireworks() {
+      const duration = 4 * 1000;
+      const end = Date.now() + duration;
 
       (function frame() {
         confetti({
-          particleCount: 7,
+          particleCount: 5,
           angle: 60,
-          spread: 65,
-          origin: { x: 0, y: 0.7 },
-          colors: colors
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#f5d061', '#e11d48', '#ff758f', '#ffffff']
         });
         confetti({
-          particleCount: 7,
+          particleCount: 5,
           angle: 120,
-          spread: 65,
-          origin: { x: 1, y: 0.7 },
-          colors: colors
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#f5d061', '#e11d48', '#ff758f', '#ffffff']
         });
 
         if (Date.now() < end) {
@@ -873,37 +727,72 @@
       }());
     }
 
-    function closeCelebrationOverlay() {
-      const modal = document.getElementById('celebrationOverlay');
-      modal.classList.remove('opacity-100');
-      modal.classList.add('opacity-0');
-      setTimeout(() => {
-        modal.classList.add('hidden');
-      }, 400);
+    /* ================= BACKGROUND CANVAS HEARTS & SPARKLES ================= */
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    for (let i = 0; i < 35; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 12 + 6,
+        speedY: Math.random() * 0.7 + 0.3,
+        speedX: (Math.random() - 0.5) * 0.4,
+        alpha: Math.random() * 0.5 + 0.2,
+        isHeart: Math.random() > 0.4
+      });
     }
 
-    // Download/Save cute promise note
-    function downloadKeepsakeMessage() {
-      const keepsake = 
-`👑 TO MY BELOVED SHERNI (SHRUSTI) 🐾💖
----------------------------------------------
-Date: Forever & Always
-Promise Sealed: You & Me Against The Entire World.
-
-1. I promise to always stand by you as your greatest fan.
-2. I promise to listen to every little thought of yours.
-3. I promise never to let your chai/coffee go cold.
-4. I promise to hold your hand and calm your fiercest storms.
-5. I promise to love you deeper with each sunrise.
-
-You are officially mine forever! 💍✨
-`;
-      const blob = new Blob([keepsake], { type: 'text/plain' });
-      const anchor = document.createElement('a');
-      anchor.download = `For_My_Sherni_Shrusti_Promises.txt`;
-      anchor.href = window.URL.createObjectURL(blob);
-      anchor.click();
+    function drawHeart(x, y, size, alpha) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = "#f43f5e";
+      ctx.beginPath();
+      const topCurveHeight = size * 0.3;
+      ctx.moveTo(x, y + topCurveHeight);
+      ctx.bezierCurveTo(x, y, x - size / 2, y, x - size / 2, y + topCurveHeight);
+      ctx.bezierCurveTo(x - size / 2, y + (size + topCurveHeight) / 2, x, y + size, x, y + size);
+      ctx.bezierCurveTo(x, y + size, x + size / 2, y + (size + topCurveHeight) / 2, x + size / 2, y + topCurveHeight);
+      ctx.bezierCurveTo(x + size / 2, y, x, y, x, y + topCurveHeight);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
     }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+
+      particles.forEach(p => {
+        p.y -= p.speedY;
+        p.x += p.speedX;
+
+        if (p.y < -20) {
+          p.y = height + 20;
+          p.x = Math.random() * width;
+        }
+
+        if (p.isHeart) {
+          drawHeart(p.x, p.y, p.size, p.alpha);
+        } else {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size / 3, 0, Math.PI * 2);
+          ctx.fillStyle = "#f5d061";
+          ctx.globalAlpha = p.alpha;
+          ctx.fill();
+        }
+      });
+
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
   </script>
 </body>
 </html>
