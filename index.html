@@ -429,7 +429,6 @@
       gap: 8px;
     }
 
-    /* Secret Customizer Modal */
     .secret-trigger {
       position: fixed;
       bottom: 12px;
@@ -449,9 +448,7 @@
   <!-- Floating Ambient Particles Canvas -->
   <canvas id="bgCanvas"></canvas>
 
-  <!-- Background Music Audio Element -->
-  <!-- Looks for song.mp3 in the same GitHub repository -->
-  <!-- <audio id="bgMusic" src="song.mp3" preload="auto" loop></audio> -->
+  <!-- Background Music Audio Element with autoplay -->
   <audio id="bgMusic" src="song.mp3" preload="auto" autoplay loop></audio>
 
   <!-- Music Status / Toggle Widget -->
@@ -475,7 +472,7 @@
             <span style="font-size: 26px;">💍</span>
           </div>
 
-          <p class="tap-hint">Tap seal to open letter & music</p>
+          <p class="tap-hint">Tap seal to open letter</p>
         </div>
       </div>
     </div>
@@ -555,7 +552,6 @@
     const musicLabel = document.getElementById('musicLabel');
     let isMusicPlaying = false;
 
-    // Web Audio synthesizer fallback in case song.mp3 isn't uploaded yet
     let audioCtx = null;
     function playChime(freq = 523.25, duration = 0.5) {
       try {
@@ -571,19 +567,26 @@
         gain.connect(audioCtx.destination);
         osc.start();
         osc.stop(audioCtx.currentTime + duration);
-      } catch (e) {
-        // AudioContext not supported
-      }
+      } catch (e) {}
+    }
+
+    function markAudioPlaying() {
+      isMusicPlaying = true;
+      musicWidget.classList.add('playing');
+      musicLabel.innerText = "Playing 🎶";
+    }
+
+    function markAudioPaused() {
+      isMusicPlaying = false;
+      musicWidget.classList.remove('playing');
+      musicLabel.innerText = "Paused ⏸️";
     }
 
     function startMusic() {
       if (isMusicPlaying) return;
       bgMusic.play().then(() => {
-        isMusicPlaying = true;
-        musicWidget.classList.add('playing');
-        musicLabel.innerText = "Playing 🎶";
+        markAudioPlaying();
       }).catch(err => {
-        // Fallback tone if MP3 not found
         playChime(659.25, 0.8);
       });
     }
@@ -591,19 +594,32 @@
     function toggleMusic() {
       if (!isMusicPlaying) {
         bgMusic.play().then(() => {
-          isMusicPlaying = true;
-          musicWidget.classList.add('playing');
-          musicLabel.innerText = "Playing 🎶";
+          markAudioPlaying();
         }).catch(e => {
           playChime(523.25, 0.4);
         });
       } else {
         bgMusic.pause();
-        isMusicPlaying = false;
-        musicWidget.classList.remove('playing');
-        musicLabel.innerText = "Paused ⏸️";
+        markAudioPaused();
       }
     }
+
+    // Attempt instant autoplay on load, with first-touch fallback for mobile browsers
+    window.addEventListener('DOMContentLoaded', () => {
+      bgMusic.play().then(() => {
+        markAudioPlaying();
+      }).catch(() => {
+        const playOnFirstTouch = () => {
+          bgMusic.play().then(() => {
+            markAudioPlaying();
+          }).catch(() => {});
+          document.removeEventListener('click', playOnFirstTouch);
+          document.removeEventListener('touchstart', playOnFirstTouch);
+        };
+        document.addEventListener('click', playOnFirstTouch, { once: true });
+        document.addEventListener('touchstart', playOnFirstTouch, { once: true });
+      });
+    });
 
     /* ================= PANEL TRANSITIONS ================= */
     function showStage(stageId) {
@@ -681,14 +697,11 @@
       const noBtn = document.getElementById('noBtn');
       const yesBtn = document.getElementById('yesBtn');
 
-      // Expand YES button
       const currentScale = 1 + (dodgeCount * 0.16);
       yesBtn.style.transform = `scale(${Math.min(currentScale, 1.8)})`;
 
-      // Change phrase
       noBtn.innerText = noPhrases[dodgeCount % noPhrases.length];
 
-      // Move No button to random offset
       const x = (Math.random() - 0.5) * 180;
       const y = (Math.random() - 0.5) * 140;
       noBtn.style.transform = `translate(${x}px, ${y}px)`;
